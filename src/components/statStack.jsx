@@ -3,28 +3,39 @@ import Stat from "./stat";
 import StatHeader from "./statHeader";
 
 class StatStack extends Component {
-  state = {};
+  state = { isMuted: false };
+  toggleMute = () => {
+    console.log("handleToggle");
+    if (this.state.isMuted === true) {
+      this.setState({ isMuted: false });
+    } else {
+      this.setState({ isMuted: true });
+    }
+  };
   render() {
-    const { fState, hierarchy, data, handleClick, selectedStatId } = this.props;
-    const { isExpanded } = this.props.fState;
+    const { hierarchy, data, fullHeader } = this.props;
+    const { isMuted } = this.state;
     return (
       <div>
-        <StatHeader
-          applyClasses="my-2"
-          hierarchy={hierarchy}
-          fState={fState}
-        ></StatHeader>
-        <div className="scroll" style={fState.innerStatScrollStyle}>
-          {data.map((stat) => (
-            <Stat
-              key={stat.id}
-              data={stat}
-              hierarchy={hierarchy}
-              fState={fState}
-              isSelected={stat.id === selectedStatId}
-              handleClick={(statRet) => handleClick(statRet, hierarchy.level)}
-            ></Stat>
-          ))}
+        {fullHeader && (
+          <StatHeader
+            applyClasses="my-2"
+            hierarchy={hierarchy}
+            fullHeader={fullHeader}
+          ></StatHeader>
+        )}
+        <div>
+          {data != null &&
+            data.length > 0 &&
+            data.map((stat, i) => (
+              <Stat
+                key={"key-" + stat.id + "_" + i}
+                data={stat}
+                hierarchy={hierarchy}
+                handleToggleMute={this.toggleMute}
+                isMuted={isMuted}
+              ></Stat>
+            ))}
         </div>
       </div>
     );

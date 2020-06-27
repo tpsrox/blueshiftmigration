@@ -9,9 +9,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <AppHeader></AppHeader>
-        <div className="mx-4">
-          <Dashboard></Dashboard>
-        </div>
+        <Dashboard></Dashboard>
       </React.Fragment>
     );
   }
